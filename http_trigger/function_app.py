@@ -1,7 +1,6 @@
 import azure.functions as func
 import logging
 import json
-import asyncio
 from azure.eventhub.aio import EventHubProducerClient
 from azure.eventhub import EventData
 from azure.identity import DefaultAzureCredential
@@ -20,6 +19,7 @@ EVENT_HUB_NAME = "toss-eventhub"
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
+
 @app.route(route="http_trigger")
 async def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -35,6 +35,7 @@ async def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
 
     return func.HttpResponse("Data sent to Event Hub successfully.", status_code=200)
 
+
 async def send_to_eventhub(data):
     producer = EventHubProducerClient.from_connection_string(
         conn_str=EVENT_HUB_CONNECTION_STR, eventhub_name=EVENT_HUB_NAME
@@ -46,5 +47,4 @@ async def send_to_eventhub(data):
 
 if __name__ == '__main__':
     app.run()
-    
-    
+
